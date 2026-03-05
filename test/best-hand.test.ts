@@ -2,7 +2,6 @@ import { Card } from "../src/card";
 import { HandCategory } from "../src/hand-category";
 import { PokerSolver } from "../src/solver";
 
-
 describe('Best Hand Selection', () => {
   it('should select the best 5-card hand out of 7', () => {
     const board = [
@@ -13,5 +12,15 @@ describe('Best Hand Selection', () => {
     const bestHand = PokerSolver.selectBestHand(holeCards, board);
 
     expect(bestHand.getCategory()).toBe(HandCategory.Flush);
+  });
+
+  it('should handle "Board Plays"', () => {
+    const board = [
+      new Card('A', 'H'), new Card('K', 'D'), new Card('Q', 'S'), 
+      new Card('J', 'C'), new Card('10', 'H')
+    ];
+    const holeCards = [new Card('2', 'H'), new Card('3', 'D')]; // No improvement possible
+    const bestHand = PokerSolver.selectBestHand(holeCards, board);
+    expect(bestHand.getCategory()).toBe(HandCategory.Straight);
   });
 });
