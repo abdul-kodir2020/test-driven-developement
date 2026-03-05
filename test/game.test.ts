@@ -17,4 +17,18 @@ describe('PokerGame', () => {
     const winners = game.getWinners();
     expect(winners[0].name).toBe('Alice');
   });
+
+  it('should handle split pots when two players have the same hand', () => {
+    const board = [
+      new Card('A', 'H'), new Card('K', 'S'), new Card('Q', 'D'), 
+      new Card('2', 'C'), new Card('3', 'S')
+    ];
+    // Les deux joueurs ont la même paire d'As avec les mêmes kickers sur le board
+    const game = new PokerGame(board);
+    game.addPlayer('Alice', [new Card('A', 'D'), new Card('7', 'C')]);
+    game.addPlayer('Bob', [new Card('A', 'S'), new Card('7', 'H')]);
+    
+    const winners = game.getWinners();
+    expect(winners.length).toBe(2); // Split !
+  });
 });
