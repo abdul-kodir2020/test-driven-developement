@@ -1,5 +1,4 @@
-import { Card } from "./card";
-
+import { Card } from "../src/card";
 
 describe('Card', () => {
   it('should store a rank and a suit', () => {
