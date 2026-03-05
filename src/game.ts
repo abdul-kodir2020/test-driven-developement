@@ -1,10 +1,12 @@
 import { Card } from './card';
 import { Hand } from './hand';
 import { PokerSolver } from './solver';
+import { HandCategory } from './hand-category';
 
-interface PlayerResult {
+interface PlayerFinalResult {
   name: string;
-  bestHand: Hand;
+  category: string;
+  chosen5: string[];
 }
 
 export class PokerGame {
@@ -16,19 +18,34 @@ export class PokerGame {
     this.players.push({ name, holeCards });
   }
 
-  getWinners(): PlayerResult[] {
-    // Calculer la meilleure main pour chaque joueur
-    const results: PlayerResult[] = this.players.map(p => ({
+  /**
+   * Logique interne pour trouver les mains gagnantes
+   */
+  private calculateWinners() {
+    const results = this.players.map(p => ({
       name: p.name,
       bestHand: PokerSolver.selectBestHand(p.holeCards, this.board)
     }));
 
-    // Trier les résultats (la meilleure main en premier)
     results.sort((a, b) => b.bestHand.compareTo(a.bestHand));
 
-    // retourner tous ceux qui sont à égalité avec le premier
-    return results.filter(r => 
+    const winners = results.filter(r => 
       r.bestHand.compareTo(results[0].bestHand) === 0
     );
+
+    return winners;
+  }
+
+  /**
+   * Retourne le résultat final au format demandé par le sujet
+   */
+  getWinners(): PlayerFinalResult[] {
+    const winningPlayers = this.calculateWinners();
+
+    return winningPlayers.map(w => ({
+      name: w.name,
+      category: HandCategory[w.bestHand.getCategory()], // Transforme l'Enum en string (ex: "Straight")
+      chosen5: w.bestHand.cards.map(c => `${c.rank}${c.suit}`) // Ex: "5C"
+    }));
   }
 }
