@@ -12,7 +12,17 @@ export class Hand {
     return counts;
   }
 
-  getCategory(): HandCategory {
+  public getCategory(): HandCategory {
+    const counts = Object.values(this.getCounts());
+
+    if (counts.includes(4)) return HandCategory.FourOfAKind;
+    if (counts.includes(3) && counts.includes(2)) return HandCategory.FullHouse;
+    if (counts.includes(3)) return HandCategory.ThreeOfAKind;
+    
+    const pairs = counts.filter(c => c === 2).length;
+    if (pairs === 2) return HandCategory.TwoPair;
+    if (pairs === 1) return HandCategory.Pair;
+
     return HandCategory.HighCard;
   }
 }
