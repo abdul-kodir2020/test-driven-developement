@@ -38,9 +38,16 @@ describe('Hand', () => {
   });
 
   it('should win with a higher pair than opponent', () => {
-  const handA = new Hand([new Card('A', 'H'), new Card('A', 'D'), new Card('10', 'S'), new Card('5', 'C'), new Card('2', 'H')]); // Paire d'As
-  const handB = new Hand([new Card('K', 'H'), new Card('K', 'D'), new Card('Q', 'S'), new Card('J', 'C'), new Card('9', 'H')]); // Paire de Rois
+    const handA = new Hand([new Card('A', 'H'), new Card('A', 'D'), new Card('10', 'S'), new Card('5', 'C'), new Card('2', 'H')]); // Paire d'As
+    const handB = new Hand([new Card('K', 'H'), new Card('K', 'D'), new Card('Q', 'S'), new Card('J', 'C'), new Card('9', 'H')]); // Paire de Rois
 
-  expect(handA.compareTo(handB)).toBeGreaterThan(0); // A > B
-});
+    expect(handA.compareTo(handB)).toBeGreaterThan(0); // A > B
+  });
+
+  it('should rank Pair of 3 higher than Pair of 2, even if Pair of 2 has an Ace kicker', () => {
+    const pairOf2 = new Hand([new Card('2', 'H'), new Card('2', 'D'), new Card('A', 'S'), new Card('K', 'C'), new Card('Q', 'H')]);
+    const pairOf3 = new Hand([new Card('3', 'H'), new Card('3', 'D'), new Card('J', 'S'), new Card('10', 'C'), new Card('9', 'H')]);
+
+    expect(pairOf3.compareTo(pairOf2)).toBeGreaterThan(0);
+  });
 });
