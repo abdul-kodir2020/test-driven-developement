@@ -21,4 +21,19 @@ describe('Hand', () => {
     const cards = [new Card('Q', 'H'), new Card('Q', 'D'), new Card('Q', 'S'), new Card('Q', 'C'), new Card('2', 'H')];
     expect(new Hand(cards).getCategory()).toBe(HandCategory.FourOfAKind);
   });
+
+  it('should detect Flush', () => {
+    const cards = [new Card('2', 'H'), new Card('5', 'H'), new Card('7', 'H'), new Card('J', 'H'), new Card('K', 'H')];
+    expect(new Hand(cards).getCategory()).toBe(HandCategory.Flush);
+  });
+
+  it('should detect Straight', () => {
+    const cards = [new Card('5', 'H'), new Card('6', 'D'), new Card('7', 'S'), new Card('8', 'C'), new Card('9', 'H')];
+    expect(new Hand(cards).getCategory()).toBe(HandCategory.Straight);
+  });
+
+  it('should detect Ace-Low Straight (A-2-3-4-5)', () => {
+    const cards = [new Card('A', 'H'), new Card('2', 'D'), new Card('3', 'S'), new Card('4', 'C'), new Card('5', 'H')];
+    expect(new Hand(cards).getCategory()).toBe(HandCategory.Straight);
+  });
 });

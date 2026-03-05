@@ -9,7 +9,7 @@ export class Card {
 
   constructor(public rank: Rank, public suit: Suit) {}
 
-  getValue(): number {
+  public getValue(): number {
     return Card.rankValues[this.rank];
   }
 }
