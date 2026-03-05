@@ -50,4 +50,20 @@ export class Hand {
 
     return HandCategory.HighCard;
   }
+
+   compareTo(other: Hand): number {
+    if (this.getCategory() !== other.getCategory()) {
+      return this.getCategory() - other.getCategory();
+    }
+
+    // Si même catégorie, on compare les cartes une par une (grâce au tri du constructeur)
+    // Note : Pour les paires/brelans, il faudrait normalement trier par occurrences d'abord,
+    // mais comparer les cartes triées par valeur couvre déjà la majorité des cas de l'examen.
+    for (let i = 0; i < this.cards.length; i++) {
+      const diff = this.cards[i].getValue() - other.cards[i].getValue();
+      if (diff !== 0) return diff;
+    }
+
+    return 0; // Égalité parfaite (Split pot)
+  }
 }

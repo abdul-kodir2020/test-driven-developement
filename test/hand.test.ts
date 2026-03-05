@@ -36,4 +36,11 @@ describe('Hand', () => {
     const cards = [new Card('A', 'H'), new Card('2', 'D'), new Card('3', 'S'), new Card('4', 'C'), new Card('5', 'H')];
     expect(new Hand(cards).getCategory()).toBe(HandCategory.Straight);
   });
+
+  it('should win with a higher pair than opponent', () => {
+  const handA = new Hand([new Card('A', 'H'), new Card('A', 'D'), new Card('10', 'S'), new Card('5', 'C'), new Card('2', 'H')]); // Paire d'As
+  const handB = new Hand([new Card('K', 'H'), new Card('K', 'D'), new Card('Q', 'S'), new Card('J', 'C'), new Card('9', 'H')]); // Paire de Rois
+
+  expect(handA.compareTo(handB)).toBeGreaterThan(0); // A > B
+});
 });
